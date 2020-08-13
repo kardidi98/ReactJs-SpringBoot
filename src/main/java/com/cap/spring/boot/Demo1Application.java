@@ -1,6 +1,7 @@
 package com.cap.spring.boot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
@@ -35,8 +36,13 @@ public class Demo1Application implements CommandLineRunner{
 	
 	@Override
 	public void run(String... arg0) throws Exception {
-
-		nr.save(new Niveau(1L, "1 annee genie info", "1ginf"));
+		Niveau niv=new Niveau(1L, "1 annee genie info", "1ginf");
+		nr.save(niv);
+		Matiere jee = new Matiere("JEE", true);
+		jee.setNiveau(nr.findById(1L).get());
+		mr.save(jee);
+		niv.setMatieres(Arrays.asList(jee));
+		nr.save(niv);
 		nr.save(new Niveau(2L, "2 annee genie info", "2ginf"));
 		nr.save(new Niveau(3L, "3 annee genie info", "3ginf"));
 		nr.save(new Niveau(4L, "1 annee genie industriel", "1gind"));
@@ -44,9 +50,9 @@ public class Demo1Application implements CommandLineRunner{
 		nr.save(new Niveau(6L, "3 annee genie industriel", "3gind"));
 
 
-		Matiere jee = new Matiere("JEE", true);
-		jee.setNiveau(nr.findById(1L).get());
-		mr.save(jee);
+		
+		
+		
 		
 	}
 }

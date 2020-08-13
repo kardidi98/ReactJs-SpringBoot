@@ -18,4 +18,5 @@ public interface NiveauRepository extends JpaRepository<Niveau, Long>{
 
 	public Page<Niveau> findByNom(String nom, Pageable pageable);
 	public List<Niveau> findByNom(String nom);
+	
 }

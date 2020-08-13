@@ -1,6 +1,7 @@
 package com.cap.spring.boot.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -28,7 +29,7 @@ public class Niveau implements Serializable, Comparable<Niveau>{
 	private String abr;
 	@OneToMany(mappedBy = "niveau")
 	@JsonIgnore
-	private List<Matiere> matieres;
+	private List<Matiere> matieres=new ArrayList<Matiere>();
 
 	public Niveau() {
 		super();
