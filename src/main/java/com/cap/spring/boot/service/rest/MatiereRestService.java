@@ -2,11 +2,14 @@ package com.cap.spring.boot.service.rest;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cap.spring.boot.entities.Matiere;
@@ -27,6 +31,8 @@ public class MatiereRestService {
 
 	@Autowired
 	MatiereRepository nr;
+	@Autowired
+	NiveauRepository nivRep;
 
 	@RequestMapping(value = "/matiereRestFull", method = RequestMethod.GET)
 	public List<Matiere> listMatieres() {
@@ -40,16 +46,16 @@ public class MatiereRestService {
 
 	 
 	
-	@PostMapping("/matiereRestFull")
-	public ResponseEntity<String> insertMatiere(@RequestBody Matiere n) {
-		System.out.println(n.toString());
-		
+	@PostMapping("/matiereRestFull/{niv}")
+	public ResponseEntity<String> insertMatiere(@RequestBody Matiere n,@PathVariable(name = "niv") Long niv) {
+		n.setNiveau(nivRep.getOne(niv));
 		nr.save(n);
 		return new ResponseEntity<>("saved successefully",HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/matiereRestFull/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<String> modifieMatiere(@PathVariable(name = "id") Long id, @RequestBody Matiere n) {
+	@RequestMapping(value = "/matiereRestFull/{id}/{niv}", method = RequestMethod.PUT)
+	public ResponseEntity<String> modifieMatiere(@PathVariable(name = "id") Long id,@PathVariable(name = "niv") Long niv, @RequestBody Matiere n) {
+		n.setNiveau(nivRep.getOne(niv));
 		n.setId(id);
 		nr.save(n);
 		return new ResponseEntity<>("updated successefully",HttpStatus.OK);

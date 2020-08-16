@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //		http.formLogin().loginPage("/login");
 		http.authorizeRequests().antMatchers("/components/**","/*.js").permitAll();
 		http.authorizeRequests().antMatchers("/niveauRestFull/**").permitAll();
+		http.authorizeRequests().antMatchers("/matiereRestFull/**").permitAll();
 		http.cors()
 		.and()
 		.csrf()

@@ -36,7 +36,7 @@ public class NiveauRestService {
 		return nr.findById(id).get();
 	}
 
-	 
+	
 	
 	@PostMapping("/niveauRestFull")
 	public ResponseEntity<String> insertNiveau(@RequestBody Niveau n) {

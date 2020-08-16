@@ -2,6 +2,7 @@ package com.cap.spring.boot.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,10 +11,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 @Entity
 @Table(name = "matiere")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Matiere implements Serializable {
 
+	
 	/**
 	 * 
 	 */
@@ -25,10 +32,11 @@ public class Matiere implements Serializable {
 	private String nom;
 	private boolean specialite;
 	@ManyToOne
-	private Niveau niveau;
+	@JsonDeserialize
+	private Niveau level;
+
 
 	public Matiere() {
-		super();
 	}
 
 	public Matiere(String nom, boolean specialite) {
@@ -36,6 +44,12 @@ public class Matiere implements Serializable {
 		this.nom = nom;
 		this.specialite = specialite;
 	}
+	public Matiere(@Size(min = 3, max = 50) String nom, boolean specialite, Niveau niveau) {
+		this.nom = nom;
+		this.specialite = specialite;
+		this.level = niveau;
+	}
+
 
 	public Long getId() {
 		return id;
@@ -62,10 +76,10 @@ public class Matiere implements Serializable {
 	}
 
 	public Niveau getNiveau() {
-		return niveau;
+		return level;
 	}
 
 	public void setNiveau(Niveau niveau) {
-		this.niveau = niveau;
+		this.level = niveau;
 	}
 }

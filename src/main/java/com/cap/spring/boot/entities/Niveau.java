@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,12 +28,11 @@ public class Niveau implements Serializable, Comparable<Niveau>{
 	@Size(min = 3, max = 50)
 	private String nom;
 	private String abr;
-	@OneToMany(mappedBy = "niveau")
+	@OneToMany(mappedBy = "level",cascade = CascadeType.ALL,orphanRemoval = true)
 	@JsonIgnore
 	private List<Matiere> matieres=new ArrayList<Matiere>();
 
 	public Niveau() {
-		super();
 	}
 
 	public Niveau(Long id, String nom, String abr) {
@@ -77,6 +77,11 @@ public class Niveau implements Serializable, Comparable<Niveau>{
 	@Override
 	public int compareTo(Niveau o) {
 		return nom.compareTo(o.getNom());
+	}
+
+	@Override
+	public String toString() {
+		return "Niveau [id=" + id + ", nom=" + nom + ", abr=" + abr + "]";
 	}
 
 }
